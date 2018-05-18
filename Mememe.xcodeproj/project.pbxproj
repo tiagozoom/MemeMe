@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		484FA58620880F7D00FD1CDF /* MemeTextDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484FA58520880F7D00FD1CDF /* MemeTextDelegate.swift */; };
+		484FA5882088191F00FD1CDF /* NotificationCenterStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484FA5872088191F00FD1CDF /* NotificationCenterStrings.swift */; };
+		484FA58B20881B7700FD1CDF /* Meme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484FA58A20881B7700FD1CDF /* Meme.swift */; };
 		484FF6E72086BDD500AFBD21 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484FF6E62086BDD500AFBD21 /* AppDelegate.swift */; };
 		484FF6E92086BDD600AFBD21 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484FF6E82086BDD600AFBD21 /* ViewController.swift */; };
 		484FF6EC2086BDD600AFBD21 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 484FF6EA2086BDD600AFBD21 /* Main.storyboard */; };
@@ -15,6 +18,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		484FA58520880F7D00FD1CDF /* MemeTextDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemeTextDelegate.swift; sourceTree = "<group>"; };
+		484FA5872088191F00FD1CDF /* NotificationCenterStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenterStrings.swift; sourceTree = "<group>"; };
+		484FA58A20881B7700FD1CDF /* Meme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Meme.swift; sourceTree = "<group>"; };
 		484FF6E32086BDD500AFBD21 /* Mememe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mememe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		484FF6E62086BDD500AFBD21 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		484FF6E82086BDD600AFBD21 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -35,6 +41,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		484FA58420880F5200FD1CDF /* Text Field Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				484FA58520880F7D00FD1CDF /* MemeTextDelegate.swift */,
+			);
+			path = "Text Field Delegates";
+			sourceTree = "<group>";
+		};
+		484FA58920881B6E00FD1CDF /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				484FA58A20881B7700FD1CDF /* Meme.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		484FF6DA2086BDD500AFBD21 = {
 			isa = PBXGroup;
 			children = (
@@ -54,12 +76,15 @@
 		484FF6E52086BDD500AFBD21 /* Mememe */ = {
 			isa = PBXGroup;
 			children = (
+				484FA58920881B6E00FD1CDF /* Model */,
+				484FA58420880F5200FD1CDF /* Text Field Delegates */,
 				484FF6E62086BDD500AFBD21 /* AppDelegate.swift */,
 				484FF6E82086BDD600AFBD21 /* ViewController.swift */,
 				484FF6EA2086BDD600AFBD21 /* Main.storyboard */,
 				484FF6ED2086BDD800AFBD21 /* Assets.xcassets */,
 				484FF6EF2086BDD800AFBD21 /* LaunchScreen.storyboard */,
 				484FF6F22086BDD800AFBD21 /* Info.plist */,
+				484FA5872088191F00FD1CDF /* NotificationCenterStrings.swift */,
 			);
 			path = Mememe;
 			sourceTree = "<group>";
@@ -135,8 +160,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				484FA5882088191F00FD1CDF /* NotificationCenterStrings.swift in Sources */,
 				484FF6E92086BDD600AFBD21 /* ViewController.swift in Sources */,
+				484FA58620880F7D00FD1CDF /* MemeTextDelegate.swift in Sources */,
 				484FF6E72086BDD500AFBD21 /* AppDelegate.swift in Sources */,
+				484FA58B20881B7700FD1CDF /* Meme.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,6 +311,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Q574737C9B;
 				INFOPLIST_FILE = Mememe/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -301,6 +330,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Q574737C9B;
 				INFOPLIST_FILE = Mememe/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
