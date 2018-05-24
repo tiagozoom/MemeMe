@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     enum BarButtonType: Int{
         case camera,gallery
@@ -79,10 +79,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             camera.isEnabled = true
         }
         
-        topText.defaultTextAttributes = memeTextAttributes
-        bottomText.defaultTextAttributes = memeTextAttributes
-        topText.textAlignment = .center
-        bottomText.textAlignment = .center
+        setupMemeTextfields(topText,bottomText)
+    }
+    
+    fileprivate func setupMemeTextfields(_ textFields: UITextField...){
+        textFields.forEach { (textField) in
+            textField.defaultTextAttributes = memeTextAttributes
+            textField.textAlignment = .center
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -144,7 +148,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     fileprivate func save(){
-        let meme = Meme(originalImage: imageView.image, memeImage: memedImage!, topText: topText.text!, bottomText: bottomText.text!)
+        _ = Meme(originalImage: imageView.image, memeImage: memedImage!, topText: topText.text!, bottomText: bottomText.text!)
     }
     
     @IBAction func shareMeme(_ sender: Any) {
