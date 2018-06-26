@@ -10,4 +10,5 @@ import Foundation
 
 enum NotificationCenterStrings: String{
    case bottomTextWasSelected = "com.mememe.notificationkey"
+   case memeWasUpated = "com.mememeUpdated.notificationkey"
 }

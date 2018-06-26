@@ -14,6 +14,12 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         case camera,gallery
     }
     
+    var meme: Meme?{
+        didSet{
+            updateUI(meme)
+        }
+    }
+    
     @IBOutlet weak var topText: UITextField!
     @IBOutlet weak var bottomText: UITextField!
     @IBOutlet weak var gallery: UIBarButtonItem!
@@ -23,8 +29,6 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     @IBOutlet weak var bottomToolbar: UIToolbar!
     @IBOutlet weak var shareButton: UIBarButtonItem!
     
-    var memedImage: UIImage?
-    
     let memeTextAttributes: Dictionary<String,Any> = [
         NSAttributedStringKey.strokeColor.rawValue: UIColor.black,
         NSAttributedStringKey.foregroundColor.rawValue: UIColor.white,
@@ -33,6 +37,10 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     ]
     
     let memeTextDelegate = MemeTextDelegate()
+    
+    override var prefersStatusBarHidden: Bool{
+        return true
+    }
     
     @IBAction func selectPhoto(_ sender: UIBarButtonItem) {
         let imagePicker = UIImagePickerController()
@@ -48,8 +56,13 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         self.present(imagePicker, animated: true, completion: nil)
     }
     
-    override var prefersStatusBarHidden: Bool{
-        return true
+    fileprivate func updateUI(_ meme: Meme?){
+        DispatchQueue.main.async { [weak self] in
+            self?.topText.text = meme?.topText
+            self?.bottomText.text = meme?.bottomText
+            self?.imageView.image = meme?.originalImage
+            self?.shareButton.isEnabled = true;
+        }
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
@@ -132,12 +145,12 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
         UIGraphicsBeginImageContext(self.view.frame.size)
         view.drawHierarchy(in: self.view.frame, afterScreenUpdates: true)
-        let memedImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        let image = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         
         topToolbar.isHidden = false
         bottomToolbar.isHidden = false
-        return memedImage
+        return image
     }
     
     @IBAction func cancel(_ sender: Any) {
@@ -145,23 +158,40 @@ class MemeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         bottomText.text = "BOTTOM"
         imageView.image = nil
         shareButton.isEnabled = false
+        dismiss(animated: true, completion: nil)
     }
     
-    fileprivate func save(){
-        _ = Meme(originalImage: imageView.image, memeImage: memedImage!, topText: topText.text!, bottomText: bottomText.text!)
+    fileprivate func save(_ memedImage: UIImage){
+        let createdMeme = Meme(originalImage: imageView.image, memeImage: memedImage, topText: topText.text!, bottomText: bottomText.text!)
+        (UIApplication.shared.delegate as! AppDelegate).memes.append(createdMeme)
+    }
+    
+    fileprivate func update(_ memedImage: UIImage){
+        let updatedMeme = Meme(originalImage: imageView.image, memeImage: memedImage, topText: topText.text!, bottomText: bottomText.text!)
+        
+        (UIApplication.shared.delegate as! AppDelegate).memes[(meme?.index!)!] = updatedMeme
+        
+        NotificationCenter.default.post(name: Notification.Name(NotificationCenterStrings.memeWasUpated.rawValue), object: updatedMeme, userInfo: nil)
+
     }
     
     @IBAction func shareMeme(_ sender: Any) {
-        memedImage = generateMemedImage()
-        let activityViewController = UIActivityViewController(activityItems: [memedImage!], applicationActivities: nil)
-        activityViewController.completionWithItemsHandler = getMemeCompletionWithItemsHandler()
+        let memedImage = generateMemedImage()
+        let activityViewController = UIActivityViewController(activityItems: [memedImage], applicationActivities: nil)
+        activityViewController.completionWithItemsHandler = getMemeCompletionWithItemsHandler(memedImage)
         present(activityViewController, animated: true, completion: nil)
     }
     
-    fileprivate func getMemeCompletionWithItemsHandler() -> UIActivityViewControllerCompletionWithItemsHandler{
+    fileprivate func getMemeCompletionWithItemsHandler(_ image: UIImage) -> UIActivityViewControllerCompletionWithItemsHandler{
         return {(activityType: UIActivityType?, completed: Bool, returnedItems: [Any]?, error: Error?) in
             if completed{
-                self.save()
+                if self.meme?.index != nil{
+                    self.update(image)
+                }else{
+                    self.save(image)
+                }
+                
+                self.dismiss(animated: true, completion: nil)
             }
         }
     }
